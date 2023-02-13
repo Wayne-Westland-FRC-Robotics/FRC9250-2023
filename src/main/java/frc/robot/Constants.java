@@ -23,4 +23,15 @@ public final class Constants {
     public static final int LEFT_SPX_MOTOR_ID = 3;
     public static final int RIGHT_SPX_MOTOR_ID = 4;
   }
+
+  public static class ArmConstants {
+    public static final int ARM_CAN_MOTOR_ID = 5;
+    public static final int INTAKE_CAN_MOTOR_ID = 6;
+    public static final int ARM_CURRENT_LIMIT_A = 20;
+    public static final double ARM_OUTPUT_POWER = 0.4;
+    public static final int INTAKE_CURRENT_LIMIT_A = 25;
+    public static final int INTAKE_HOLD_CURRENT_LIMIT_A = 5;
+    public static final double INTAKE_OUTPUT_POWER = 1.0;
+    public static final double INTAKE_HOLD_POWER = 0.07;
+  }
 }
