@@ -5,8 +5,18 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.autoBluePath;
+import frc.robot.commands.autoGreenPath;
 import frc.robot.commands.driveCommand;
+import frc.robot.commands.extendArmCommand;
+import frc.robot.commands.pullIntakeCommand;
+import frc.robot.commands.pushIntakeCommand;
+import frc.robot.commands.retractArmCommand;
+import frc.robot.subsystems.arm;
 import frc.robot.subsystems.drivetrain;
+import frc.robot.subsystems.intake;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -20,15 +30,30 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final drivetrain m_drivetrain = new drivetrain();
+  private final arm m_arm = new arm();
+  private final intake m_intake = new intake();
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private final CommandXboxController m_operatorController =
+      new CommandXboxController(OperatorConstants.kOperatorControllerPort);
+
+  private final Command m_greenPath = new autoGreenPath(m_drivetrain, m_arm, m_intake);
+  private final Command m_bluePath = new autoBluePath(m_drivetrain, m_arm, m_intake);
+
+  SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     m_drivetrain.setDefaultCommand(
       new driveCommand(m_driverController::getLeftY, m_driverController::getRightY, m_drivetrain)
     );
+
+    m_chooser.setDefaultOption("Green Path", m_greenPath);
+
+    m_chooser.addOption("Blue Path", m_bluePath);
+
+    Shuffleboard.getTab("Auto Path").add(m_chooser);
     // Configure the trigger bindings
     configureBindings();
   }
@@ -43,11 +68,10 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    
-
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
+    m_operatorController.povUp().whileTrue(new extendArmCommand(m_arm));
+    m_operatorController.povDown().whileTrue(new retractArmCommand(m_arm));
+    m_operatorController.leftBumper().whileTrue(new pushIntakeCommand(m_intake));
+    m_operatorController.rightBumper().whileTrue(new pullIntakeCommand(m_intake));
   }
 
   /**
@@ -57,6 +81,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return null;
+    return m_chooser.getSelected();
   }
 }
