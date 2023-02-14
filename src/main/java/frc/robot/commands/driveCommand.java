@@ -23,6 +23,7 @@ public class driveCommand extends CommandBase {
     leftSpeed = lSpeed;
     rightSpeed = rSpeed;
     m_drivetrain = Drivetrain;
+    addRequirements(m_drivetrain);
   }
 
   // Called when the command is initially scheduled.

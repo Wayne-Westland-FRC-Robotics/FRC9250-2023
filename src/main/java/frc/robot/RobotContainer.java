@@ -53,7 +53,7 @@ public class RobotContainer {
 
     m_chooser.addOption("Blue Path", m_bluePath);
 
-    Shuffleboard.getTab("Auto Path").add(m_chooser);
+    Shuffleboard.getTab("Autonomous").add(m_chooser);
     // Configure the trigger bindings
     configureBindings();
   }
