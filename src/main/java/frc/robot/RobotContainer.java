@@ -18,6 +18,7 @@ import frc.robot.subsystems.intake;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -37,23 +38,29 @@ public class RobotContainer {
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
   private final CommandXboxController m_operatorController =
       new CommandXboxController(OperatorConstants.kOperatorControllerPort);
+  private final CommandJoystick m_driverJoystickR = 
+      new CommandJoystick(OperatorConstants.kDriverJoystickPortR);
+  private final CommandJoystick m_driverJoystickL =
+      new CommandJoystick(OperatorConstants.kDriverJoystickPortL);
 
   private final Command m_greenPath = new autoGreenPath(m_drivetrain, m_arm, m_intake);
   private final Command m_bluePath = new autoBluePath(m_drivetrain, m_arm, m_intake);
 
-  SendableChooser<Command> m_chooser = new SendableChooser<>();
+  
+
+  SendableChooser<Command> m_chooser1 = new SendableChooser<>();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    m_drivetrain.setDefaultCommand(
-      new driveCommand(m_driverController::getLeftY, m_driverController::getRightY, m_drivetrain)
-    );
+   
+    m_chooser1.setDefaultOption("Green Path", m_greenPath);
+    m_chooser1.addOption("Blue Path", m_bluePath);
 
-    m_chooser.setDefaultOption("Green Path", m_greenPath);
 
-    m_chooser.addOption("Blue Path", m_bluePath);
 
-    Shuffleboard.getTab("Autonomous").add(m_chooser);
+    Shuffleboard.getTab("Autonomous Path").add(m_chooser1);
+
+   
     // Configure the trigger bindings
     configureBindings();
   }
@@ -72,6 +79,13 @@ public class RobotContainer {
     m_operatorController.povDown().whileTrue(new retractArmCommand(m_arm));
     m_operatorController.leftBumper().whileTrue(new pushIntakeCommand(m_intake));
     m_operatorController.rightBumper().whileTrue(new pullIntakeCommand(m_intake));
+    m_driverJoystickL.button(3).whileTrue(new extendArmCommand(m_arm));
+    m_driverJoystickL.button(4).whileTrue(new retractArmCommand(m_arm));
+    m_driverJoystickR.button(3).whileTrue(new pushIntakeCommand(m_intake));
+    m_driverJoystickR.button(4).whileTrue(new pullIntakeCommand(m_intake));
+    m_drivetrain.setDefaultCommand(
+      new driveCommand(m_driverJoystickL::getY, m_driverJoystickR::getY, m_drivetrain)
+    );
   }
 
   /**
@@ -81,6 +95,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return m_chooser.getSelected();
+    return m_chooser1.getSelected();
+    
   }
 }
