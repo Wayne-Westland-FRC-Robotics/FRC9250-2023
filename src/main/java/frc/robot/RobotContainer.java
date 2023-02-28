@@ -46,8 +46,10 @@ public class RobotContainer {
   private final Command m_greenPath = new autoGreenPath(m_drivetrain, m_arm, m_intake);
   private final Command m_bluePath = new autoBluePath(m_drivetrain, m_arm, m_intake);
 
-  
+  private final Command m_flightDrive = new driveCommand(m_driverJoystickL::getY, m_driverJoystickR::getY, m_drivetrain);
+  private final Command m_xboxDrive = new driveCommand(m_driverController::getLeftY, m_driverController::getRightY, m_drivetrain);
 
+  SendableChooser<Command> m_controlType = new SendableChooser<>();
   SendableChooser<Command> m_chooser1 = new SendableChooser<>();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -55,9 +57,10 @@ public class RobotContainer {
    
     m_chooser1.setDefaultOption("Green Path", m_greenPath);
     m_chooser1.addOption("Blue Path", m_bluePath);
+    m_controlType.setDefaultOption("Xbox Controller", m_xboxDrive);
+    m_controlType.addOption("Flightstick", m_flightDrive);
 
-
-
+    Shuffleboard.getTab("Control").add(m_controlType);
     Shuffleboard.getTab("Autonomous Path").add(m_chooser1);
 
    
@@ -86,6 +89,14 @@ public class RobotContainer {
     m_drivetrain.setDefaultCommand(
       new driveCommand(m_driverJoystickL::getY, m_driverJoystickR::getY, m_drivetrain)
     );
+  }
+
+  public Command getControlTypeChooser() {
+    return m_controlType.getSelected();
+  }
+
+  public drivetrain getDrivetrain() {
+    return m_drivetrain;
   }
 
   /**
