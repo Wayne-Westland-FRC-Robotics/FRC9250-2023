@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.arcadeDriveCommand;
 import frc.robot.commands.autoBluePath;
 import frc.robot.commands.autoGreenPath;
 import frc.robot.commands.driveCommand;
@@ -48,9 +49,12 @@ public class RobotContainer {
 
   private final Command m_flightDrive = new driveCommand(m_driverJoystickL::getY, m_driverJoystickR::getY, m_drivetrain);
   private final Command m_xboxDrive = new driveCommand(m_driverController::getLeftY, m_driverController::getRightY, m_drivetrain);
+  private final Command m_xboxArcadeDrive = new arcadeDriveCommand(m_driverController::getLeftY, m_driverController::getLeftX, m_drivetrain);
+  private final Command m_joystickArcadeDrive = new arcadeDriveCommand(m_driverJoystickR::getY, m_driverJoystickR::getX, m_drivetrain);
 
   SendableChooser<Command> m_controlType = new SendableChooser<>();
   SendableChooser<Command> m_chooser1 = new SendableChooser<>();
+  
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -59,6 +63,9 @@ public class RobotContainer {
     m_chooser1.addOption("Blue Path", m_bluePath);
     m_controlType.setDefaultOption("Xbox Controller", m_xboxDrive);
     m_controlType.addOption("Flightstick", m_flightDrive);
+    m_controlType.addOption("Xbox Controller Arcade", m_xboxArcadeDrive);
+    m_controlType.addOption("Flightstick Arcade", m_joystickArcadeDrive);
+    
 
     Shuffleboard.getTab("Control").add(m_controlType);
     Shuffleboard.getTab("Autonomous Path").add(m_chooser1);
@@ -91,10 +98,18 @@ public class RobotContainer {
     );
   }
 
+  /**
+   * get the control type chosen by the sendable chooser
+   * @return robot control type
+   */
   public Command getControlTypeChooser() {
     return m_controlType.getSelected();
   }
 
+  /**
+   * get the drivetrain of the robot
+   * @return drivetrain
+   */
   public drivetrain getDrivetrain() {
     return m_drivetrain;
   }
@@ -106,7 +121,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return m_chooser1.getSelected();
+    return null;
     
   }
 }
