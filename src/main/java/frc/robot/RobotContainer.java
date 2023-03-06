@@ -61,8 +61,8 @@ public class RobotContainer {
    
     m_chooser1.setDefaultOption("Green Path", m_greenPath);
     m_chooser1.addOption("Blue Path", m_bluePath);
-    m_controlType.setDefaultOption("Xbox Controller", m_xboxDrive);
-    m_controlType.addOption("Flightstick", m_flightDrive);
+    m_controlType.setDefaultOption("Xbox Controller Tank", m_xboxDrive);
+    m_controlType.addOption("Flightstick Tank", m_flightDrive);
     m_controlType.addOption("Xbox Controller Arcade", m_xboxArcadeDrive);
     m_controlType.addOption("Flightstick Arcade", m_joystickArcadeDrive);
     
@@ -93,9 +93,7 @@ public class RobotContainer {
     m_driverJoystickL.button(4).whileTrue(new retractArmCommand(m_arm));
     m_driverJoystickR.button(3).whileTrue(new pushIntakeCommand(m_intake));
     m_driverJoystickR.button(4).whileTrue(new pullIntakeCommand(m_intake));
-    m_drivetrain.setDefaultCommand(
-      new driveCommand(m_driverJoystickL::getY, m_driverJoystickR::getY, m_drivetrain)
-    );
+
   }
 
   /**

@@ -35,7 +35,6 @@ public class autoYellowPath extends SequentialCommandGroup {
         new extendArmCommand(m_arm)
       ).withTimeout(3),
       new pushIntakeCommand(m_intake).withTimeout(1)
-      // finish next meeting
     );
   }
 }
