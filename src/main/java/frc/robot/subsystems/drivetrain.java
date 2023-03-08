@@ -6,20 +6,17 @@
 package frc.robot.subsystems;
 
 // imports
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DrivetrainConstants;
 
 public class drivetrain extends SubsystemBase {
-  private final CANSparkMax driveLeftSpark = new CANSparkMax(DrivetrainConstants.LEFT_CAN_MOTOR_ID, MotorType.kBrushless);
-  private final CANSparkMax driveRightSpark = new CANSparkMax(DrivetrainConstants.RIGHT_CAN_MOTOR_ID, MotorType.kBrushless);
-  private final WPI_VictorSPX driveLeftVictor = new WPI_VictorSPX(DrivetrainConstants.LEFT_SPX_MOTOR_ID);
-  private final WPI_VictorSPX driveRightVictor = new WPI_VictorSPX(DrivetrainConstants.RIGHT_SPX_MOTOR_ID);
+  private final WPI_TalonSRX driveLeftSpark = new WPI_TalonSRX(DrivetrainConstants.LEFT_CAN_MOTOR_ID);
+  private final WPI_TalonSRX driveRightSpark = new WPI_TalonSRX(DrivetrainConstants.RIGHT_CAN_MOTOR_ID);
+  private final WPI_TalonSRX driveLeftVictor = new WPI_TalonSRX(DrivetrainConstants.LEFT_SPX_MOTOR_ID);
+  private final WPI_TalonSRX driveRightVictor = new WPI_TalonSRX(DrivetrainConstants.RIGHT_SPX_MOTOR_ID);
 
   private final MotorControllerGroup leftMotors = new MotorControllerGroup(driveLeftSpark, driveLeftVictor);
   private final MotorControllerGroup rightMotors = new MotorControllerGroup(driveRightSpark, driveRightVictor);
