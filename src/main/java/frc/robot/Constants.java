@@ -21,10 +21,10 @@ public final class Constants {
   }
 
   public static class DrivetrainConstants {
-    public static final int LEFT_CAN_MOTOR_ID = 1;
-    public static final int RIGHT_CAN_MOTOR_ID = 2;
-    public static final int LEFT_SPX_MOTOR_ID = 3;
-    public static final int RIGHT_SPX_MOTOR_ID = 4;
+    public static final int LEFT_CAN_MOTOR_ID = 2;
+    public static final int RIGHT_CAN_MOTOR_ID = 3;
+    public static final int LEFT_SPX_MOTOR_ID = 4;
+    public static final int RIGHT_SPX_MOTOR_ID = 5;
   }
 
   public static class ArmConstants {
