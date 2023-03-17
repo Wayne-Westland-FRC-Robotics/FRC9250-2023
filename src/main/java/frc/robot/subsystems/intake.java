@@ -27,21 +27,35 @@ public class intake extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
+  /**
+   * set the intake motor to a certain value
+   * @param percent the percent of the motor speed
+   * @param amps the limit of the motor in amps
+   */
   public void setIntakeMotor(double percent, int amps) {
     intake.set(percent);
     intake.setSmartCurrentLimit(amps);
   }
 
+  /**
+   * pull an item into the intake
+   */
   public void pullItem() {
     intake.set(ArmConstants.INTAKE_OUTPUT_POWER);
     intake.setSmartCurrentLimit(ArmConstants.INTAKE_CURRENT_LIMIT_A);
   }
 
+  /**
+   * push an item out of the intake
+   */
   public void pushItem() {
     intake.set(-ArmConstants.INTAKE_OUTPUT_POWER);
     intake.setSmartCurrentLimit(ArmConstants.INTAKE_CURRENT_LIMIT_A);
   }
 
+  /**
+   * set the intake to idle
+   */
   public void idle() {
     intake.set(0);
     intake.setSmartCurrentLimit(0);

@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -18,6 +19,16 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+
+  private BuiltInAccelerometer accelerometer = new BuiltInAccelerometer();
+
+  /**
+   * get the tilt of the robot in degrees
+   * @return robot tilt
+   */
+  public Double getRobotTilt() {
+    return Math.asin(accelerometer.getY()*180/Math.PI);
+  }
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -77,6 +88,11 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    // set the default command for the driving based on the control type
+
+    m_robotContainer.getDrivetrain().setDefaultCommand(
+      m_robotContainer.getControlTypeChooser());    
   }
 
   /** This function is called periodically during operator control. */

@@ -5,37 +5,43 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
+import frc.robot.Constants.ControlSystemConstants;
 import frc.robot.subsystems.drivetrain;
 
-public class driveAuto extends CommandBase {
-  
-  // variables
-  private final double leftSpeed;
-  private final double rightSpeed;
+public class BalanceNoUltra extends CommandBase {
   private final drivetrain m_drivetrain;
+  private final Robot m_robot;
+  private double tilt;
   
-  /** Creates a new driveAuto. */
-  public driveAuto(double lSpeed, double rSpeed, drivetrain Drivetrain) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    leftSpeed = lSpeed;
-    rightSpeed = rSpeed;
-    m_drivetrain = Drivetrain;
+  public BalanceNoUltra(drivetrain drivetrain, Robot robot) {
+    m_drivetrain = drivetrain;
+    m_robot = robot;
+
+    addRequirements(m_drivetrain);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_drivetrain.startBrake();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_drivetrain.tankDrive(leftSpeed, rightSpeed);
+    tilt = m_robot.getRobotTilt();
+    if (tilt >= ControlSystemConstants.TILT_BOUND) {
+      m_drivetrain.tankDrive(-0.25, -0.25);
+    } else if (tilt <= -ControlSystemConstants.TILT_BOUND) {
+      m_drivetrain.tankDrive(0.25, 0.25);
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_drivetrain.tankDrive(0d, 0d);
+    m_drivetrain.stopBrake();
   }
 
   // Returns true when the command should end.

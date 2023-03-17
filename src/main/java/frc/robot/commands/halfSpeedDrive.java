@@ -2,24 +2,28 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+// packages
 package frc.robot.commands;
 
+// imports
+import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.drivetrain;
 
-public class driveAuto extends CommandBase {
-  
+public class halfSpeedDrive extends CommandBase {
+ 
   // variables
-  private final double leftSpeed;
-  private final double rightSpeed;
+  private final DoubleSupplier leftSpeed;
+  private final DoubleSupplier rightSpeed;
   private final drivetrain m_drivetrain;
-  
-  /** Creates a new driveAuto. */
-  public driveAuto(double lSpeed, double rSpeed, drivetrain Drivetrain) {
+ 
+  /** Creates a new halfSpeedDrive. */
+  public halfSpeedDrive(DoubleSupplier lSpeed, DoubleSupplier rSpeed, drivetrain Drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
     leftSpeed = lSpeed;
     rightSpeed = rSpeed;
     m_drivetrain = Drivetrain;
+    addRequirements(m_drivetrain);
   }
 
   // Called when the command is initially scheduled.
@@ -29,7 +33,7 @@ public class driveAuto extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_drivetrain.tankDrive(leftSpeed, rightSpeed);
+    m_drivetrain.tankDrive(leftSpeed.getAsDouble() / 2d, rightSpeed.getAsDouble() / 2d);
   }
 
   // Called once the command ends or is interrupted.

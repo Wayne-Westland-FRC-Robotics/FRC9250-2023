@@ -28,18 +28,31 @@ public class arm extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
+  /**
+   * sets the arm motors to move at a percent speed
+   * @param percent the speed of the arm motor in percent
+   */
   public void setArmMotor(double percent) {
     motor.set(percent);
   }
 
+  /**
+   * extend the arm
+   */
   public void extend() {
     motor.set(ArmConstants.ARM_OUTPUT_POWER);
   }
 
+  /**
+   * retract the arm
+   */
   public void retract() {
     motor.set(-ArmConstants.ARM_OUTPUT_POWER);
   }
 
+  /**
+   * set the arm to idle
+   */
   public void idle() {
     motor.set(0);
   }
