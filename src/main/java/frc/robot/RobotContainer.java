@@ -52,12 +52,15 @@ public class RobotContainer {
 
 
 
+
   // commands for the flightsticks and xbox controllers
+
 
   private final Command m_flightDrive = new driveCommand(m_driverJoystickL::getY, m_driverJoystickR::getY, m_drivetrain);
   private final Command m_xboxDrive = new driveCommand(m_driverController::getLeftY, m_driverController::getRightY, m_drivetrain);
   private final Command m_xboxArcadeDrive = new arcadeDriveCommand(m_driverController::getLeftY, m_driverController::getLeftX, m_drivetrain);
   private final Command m_joystickArcadeDrive = new arcadeDriveCommand(m_driverJoystickR::getY, m_driverJoystickR::getX, m_drivetrain);
+
 
   // commands for autonomous period
 
@@ -65,6 +68,7 @@ public class RobotContainer {
   private final Command m_engage = new ScoreWithEngage(m_drivetrain, m_arm, m_intake, m_robot);
   private final Command m_noScoreM = new OnlyMobility(m_drivetrain);
   private final Command m_noScoreE = new OnlyEngage(m_drivetrain, m_robot);
+
 
   SendableChooser<Command> m_controlType = new SendableChooser<>();
   SendableChooser<Command> m_chooser1 = new SendableChooser<>();
