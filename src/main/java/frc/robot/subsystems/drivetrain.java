@@ -24,6 +24,10 @@ public class drivetrain extends SubsystemBase {
 
   private final DifferentialDrive diffDrive = new DifferentialDrive(leftMotors, rightMotors);
 
+  public drivetrain() {
+    startBrake();
+  }
+
   /**
    * set the speed and rotation for arcade driving
    * @param forwardSpeed the speed at which the robot moves forward
